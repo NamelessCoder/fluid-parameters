@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  NamelessCoder\FluidParameters\ViewHelpers\:
+    resource: '../Classes/ViewHelpers/*'
+    public: true
+
+  NamelessCoder\FluidParameters\:
+    resource: '../Classes/*'

@@ -1,0 +1,9 @@
+parameters:
+    level: 9
+    reportUnmatchedIgnoredErrors: false
+    checkGenericClassInNonGenericObjectType: false
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - "#no value type specified in iterable type#"
+    paths:
+        - Classes

@@ -1,0 +1,26 @@
+<f:description>
+    Fixture template file
+</f:description>
+<f:parameter name="test" type="string" required="1" oneOf="foo,bar" />
+<f:parameter name="test2" type="string" default="default" oneOf="{0: 'foo', 1: 'bar'}" />
+<f:parameter name="test3" type="string" default="default" />
+
+Output of template file
+
+<f:section name="section1">
+    <f:description>
+        Fixture template section 1
+    </f:description>
+    <f:parameter name="section1test" type="string" required="1" />
+    <f:parameter name="section1test2" type="string" default="section-default" />
+
+    Output of section 1
+</f:section>
+
+<f:section name="section2">
+    <f:parameter.mode>strict</f:parameter.mode>
+    <f:parameter name="section2test" type="string" required="1" />
+    <f:parameter name="section2test2" type="string" default="section-default" />
+
+    Output of section 2
+</f:section>
