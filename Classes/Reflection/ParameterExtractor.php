@@ -22,10 +22,9 @@ class ParameterExtractor
         $this->renderingContext = $renderingContext;
     }
 
-    public function parseTemplate(string $templatePathAndFilename): TemplateReflection
+    public function parseSource(string $templateSource): TemplateReflection
     {
-        $fileContents = (string) file_get_contents($templatePathAndFilename);
-        $parsingState = $this->renderingContext->getTemplateParser()->parse($fileContents);
+        $parsingState = $this->renderingContext->getTemplateParser()->parse($templateSource);
         $registry = $parsingState->getVariableContainer()->get(ParameterViewHelper::PARAMETER_REGISTRY_VARIABLE);
 
         $rootNode = $parsingState->getRootNode();
@@ -58,6 +57,12 @@ class ParameterExtractor
             $parameterMode,
             $sectionReflections
         );
+    }
+
+    public function parseTemplate(string $templatePathAndFilename): TemplateReflection
+    {
+        $fileContents = (string) file_get_contents($templatePathAndFilename);
+        return $this->parseSource($fileContents);
     }
 
     /**
