@@ -48,7 +48,14 @@ class ParameterHandler extends AbstractViewHelper
             }
             $type = $definition->getType();
             $value = $variables[$name] ?? $definition->getDefaultValue();
-            $value = self::cast($value, $type);
+            try {
+                $value = self::cast($value, $type);
+            } catch (Exception $exception) {
+                throw new Exception(
+                    'Parameter "' . $name . '": ' . $exception->getMessage(),
+                    1677595613
+                );
+            }
 
             if (!empty(($oneOf = $definition->getOneOf()))) {
                 $oneOf = array_map(
@@ -128,11 +135,22 @@ class ParameterHandler extends AbstractViewHelper
                 }
                 break;
             case 'object':
-                $value = (object) $value;
                 // Fall-through is intentional; default handling is to check for specific type of object by class name
             default:
-                if (class_exists($type)) {
+                if (class_exists($type) && !is_object($value)) {
                     $value = new $type($value);
+                } elseif (is_object($value) && $type !== 'object') {
+                    $class = get_class($value);
+                    $fqn = $class;
+                    $sqn = strpos($class, '\\') !== false ? substr($class, strrpos($class, '\\') + 1) : $class;
+                    if ($type !== $sqn && $type !== $fqn && !is_a($value, $type, true)) {
+                        throw new Exception(
+                            'Argument is not of expected type "' . $type . '". Found: ' . $fqn,
+                            1677595613
+                        );
+                    }
+                } else {
+                    $value = (object) $value;
                 }
                 break;
         }

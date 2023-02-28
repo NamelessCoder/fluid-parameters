@@ -83,12 +83,19 @@ class ParameterHandlerTest extends TestCase
             'array' => [['a', 'b'], ['a', 'b'], 'array'],
             'array (CSV)' => [['a', 'b'], 'a,b', 'array'],
             'object' => [new \stdClass(), new \stdClass(), 'object'],
+            'object (from array)' => [(object) ['foo' => 'bar'], ['foo' => 'bar'], 'object'],
             'DateTime (number)' => [\DateTime::createFromFormat('U', 12345678), 12345678, 'DateTime'],
             'DateTime (string)' => [new \DateTime('2023-02-09 12:00'), '2023-02-09 12:00', 'DateTime'],
             'DateTime (instance)' => [new \DateTime('2023-02-09 12:00'), new \DateTime('2023-02-09 12:00'), 'DateTime'],
-            'class name (exists)' => [new ParameterHandler(), new ParameterHandler(), ParameterHandler::class],
-            'class name (not exists)' => ['input', 'input', FooBarBaz::class],
+            'class name (instance)' => [new ParameterHandler(), new ParameterHandler(), ParameterHandler::class],
+            'class name (string)' => [new ParameterHandler(), 'unused', ParameterHandler::class],
         ];
+    }
+
+    public function testThrowsExceptionWhenCastingEncountersIncompatibleObjectType(): void
+    {
+        self::expectExceptionCode(1677595613);
+        $this->runCastingTest(null, new \DateTime('now'), ParameterHandler::class, false);
     }
 
     public function testCompile(): void
