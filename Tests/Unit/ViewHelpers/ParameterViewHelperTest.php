@@ -37,18 +37,6 @@ class ParameterViewHelperTest extends TestCase
         self::assertSame('', ParameterViewHelper::renderStatic($arguments, function() {}, new RenderingContext()));
     }
 
-    public function testCompile(): void
-    {
-        $subject = new ParameterViewHelper();
-        $init = 'init';
-        $compiled = $subject->compile('$arg', '$closure', $init, new ParameterNode(), new TemplateCompiler());
-        self::assertSame(
-            ParameterViewHelper::class . '::registerParameter($renderingContext, $arg) && $closure()',
-            $compiled
-        );
-        self::assertSame('init', $init);
-    }
-
     public function testPostParseEventWithInvalidChildNode(): void
     {
         $node = new ParameterNode();

@@ -86,20 +86,6 @@ class ParameterViewHelper extends AbstractViewHelper
         self::createOrMoveParameterNode($node, $variableContainer);
     }
 
-    public function compile(
-        $argumentsName,
-        $closureName,
-        &$initializationPhpCode,
-        ViewHelperNode $node,
-        TemplateCompiler $compiler
-    ): string {
-        return sprintf(
-            self::class  . '::registerParameter($renderingContext, %s) && %s()',
-            $argumentsName,
-            $closureName
-        );
-    }
-
     public static function registerParameter(
         RenderingContextInterface $renderingContext,
         array $arguments
