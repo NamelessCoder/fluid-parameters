@@ -43,6 +43,13 @@ class ParameterViewHelper extends AbstractViewHelper
         $this->registerArgument('required', 'bool', 'Is this parameter required?', false, false);
         $this->registerArgument('default', 'mixed', 'Optional default value of the parameter (default: null)');
         $this->registerArgument('oneOf', 'mixed', 'CSV string or array list of allowed values', false, []);
+        $this->registerArgument(
+            'options',
+            'array',
+            'Array of arbitrary options, can be read out from the ParameterExtrator reflection API',
+            false,
+            []
+        );
     }
 
     public function render(): string
@@ -114,6 +121,7 @@ class ParameterViewHelper extends AbstractViewHelper
             $arguments['description'] ?? null,
             (bool) ($arguments['required'] ?? false),
             $oneOf,
+            $arguments['options'] ?? [],
             $arguments['default'] ?? null,
             false
         );

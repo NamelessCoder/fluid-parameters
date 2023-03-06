@@ -26,6 +26,11 @@ class ParameterExtractorTest extends TestCase
             'Parameter "test" of template does not have a corresponding ParameterDefinition'
         );
         self::assertSame(
+            ['foo' => 'bar'],
+            $reflection->getParameterDefinitions()['test']->getOptions(),
+            'Parameter "test" of template does not have expected options array {"foo": "bar"}'
+        );
+        self::assertSame(
             2,
             count($reflection->getSections()),
             'Extracted reflection does not contain the expected number of sections'
