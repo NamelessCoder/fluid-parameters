@@ -57,7 +57,13 @@ class ParameterHandler extends AbstractViewHelper
                 );
             }
 
-            if (!empty(($oneOf = $definition->getOneOf()))) {
+            if (!empty($value) && !empty(($oneOf = $definition->getOneOf()))) {
+                // A non-empty value was assigned and the parameter lists allowed values. Verify that the non-empty
+                // value is one of the exact allowed values. The "not empty" check is added to allow parameters which
+                // have a default value of NULL (implied optional) but still list allowed values, to be seen as valid
+                // even when NULL (or a corresponding empty value) is assigned. Such an optional parameter will only be
+                // validated against "oneOf" allowed values if it either has a non-empty default value OR was passed
+                // to the template with a non-empty value.
                 $oneOf = array_map(
                     function ($value) use ($type) {
                         return self::cast($value, $type);
