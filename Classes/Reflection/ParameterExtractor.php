@@ -73,7 +73,7 @@ class ParameterExtractor
         $definitions = [];
         foreach ($node->getChildNodes() as $childNode) {
             if ($childNode instanceof ViewHelperNode
-                && $childNode->getViewHelperClassName() === ParameterViewHelper::class
+                && is_a($childNode->getViewHelperClassName(), ParameterViewHelper::class, true)
                 && (($parameterViewHelper = $childNode->getUninitializedViewHelper())) instanceof ParameterViewHelper
             ) {
                 $arguments = $this->extractViewHelperArguments($childNode);
