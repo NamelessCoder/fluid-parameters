@@ -68,6 +68,24 @@ This throws an error if `{title}` is not assigned as template variable when rend
 This does not throw an error if `{title}` is not assigned. Instead, it automatically assigns the variable with a value
 of `Default title`.
 
+#### Supported paramter types
+
+* `int`, `integer`
+* `string`
+* `float`, `double`, `decimal`
+* `bool`, `boolean`
+* `array`
+* `DateTime` (natively converts UNIXTIME timestamps and date strings to `DateTime`)
+* `object` (generic object, cast to `stdClass` from `array`)
+
+Furthermore, custom class names are supported and can be specified by FQN or short name. If specified by short name,
+any object instance of a class with that short name will be allowed - _and no type casting will be done_. If specified
+by FQN, only instances of the class or subclasses thereof will be allowed - _and type casting will be possible by taking
+non-object values and passing them as single constructor argument for the class using `new $className($value)`.
+
+Every type, including custom objects, also supports an "array-of-types" by adding `[]` to the type, e.g. `string[]`.
+This can even be done to multiple levels, e.g. `string[][]` to require "an array of arrays of strings".
+
 #### Specific required value
 
 ```xml

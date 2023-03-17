@@ -73,8 +73,11 @@ class ParameterHandlerTest extends TestCase
         return [
             'int' => [1, '1', 'int'],
             'integer' => [1, '1', 'integer'],
+            'integers in array' => [[1], '1', 'integer[]'],
             'float' => [1.5, '1.5', 'float'],
             'double' => [1.5, '1.5', 'double'],
+            'string' => ['foobar', 'foobar', 'string'],
+            'strings in array' => [['foobar', 'baz', '4'], 'foobar,baz,4', 'string[]'],
             'decimal' => [1.5, '1.5', 'decimal'],
             'bool (true)' => [true, '1', 'bool'],
             'boolean (true)' => [true, '1', 'boolean'],

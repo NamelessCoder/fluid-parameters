@@ -104,11 +104,15 @@ class ParameterHandler extends AbstractViewHelper
 
     /**
      * @param mixed $value
-     * @param string $type
      * @return mixed
      */
-    private static function cast($value, string $type)
+    private static function cast($value, string $type, ?string $subType = null)
     {
+        $subType = null;
+        if (strpos($type, '[]') !== false) {
+            $subType = substr($type, 0, -2);
+            $type = 'array';
+        }
         switch ($type) {
             case 'int':
             case 'integer':
@@ -125,6 +129,13 @@ class ParameterHandler extends AbstractViewHelper
             case 'array':
                 if (is_string($value)) {
                     $value = array_map('trim', explode(',', $value));
+                }
+                if ($subType !== null && is_iterable($value)) {
+                    $newArray = [];
+                    foreach ($value as $key => $subValue) {
+                        $newArray[$key] = self::cast($subValue, $subType);
+                    }
+                    $value = $newArray;
                 } else {
                     $value = (array) $value;
                 }
@@ -143,7 +154,9 @@ class ParameterHandler extends AbstractViewHelper
             case 'object':
                 // Fall-through is intentional; default handling is to check for specific type of object by class name
             default:
-                if (class_exists($type) && !is_object($value)) {
+                if ($value === null) {
+                    // Do nothing: value is null and null is an acceptable value of an object or specific class.
+                } elseif (class_exists($type) && !is_object($value)) {
                     $value = new $type($value);
                 } elseif (is_object($value) && $type !== 'object') {
                     $class = get_class($value);
