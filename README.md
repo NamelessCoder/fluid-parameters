@@ -68,7 +68,7 @@ This throws an error if `{title}` is not assigned as template variable when rend
 This does not throw an error if `{title}` is not assigned. Instead, it automatically assigns the variable with a value
 of `Default title`.
 
-#### Supported paramter types
+#### Supported parameter types
 
 * `int`, `integer`
 * `string`
