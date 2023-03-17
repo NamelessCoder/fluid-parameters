@@ -110,6 +110,7 @@ class ParameterHandler extends AbstractViewHelper
     {
         $subType = null;
         if (strpos($type, '[]') !== false) {
+            /** @var string $subType */
             $subType = substr($type, 0, -2);
             $type = 'array';
         }
