@@ -81,7 +81,7 @@ of `Default title`.
 Furthermore, custom class names are supported and can be specified by FQN or short name. If specified by short name,
 any object instance of a class with that short name will be allowed - _and no type casting will be done_. If specified
 by FQN, only instances of the class or subclasses thereof will be allowed - _and type casting will be possible by taking
-non-object values and passing them as single constructor argument for the class using `new $className($value)`.
+non-object values and passing them as single constructor argument for the class using `new $className($value)`_.
 
 Every type, including custom objects, also supports an "array-of-types" by adding `[]` to the type, e.g. `string[]`.
 This can even be done to multiple levels, e.g. `string[][]` to require "an array of arrays of strings".
